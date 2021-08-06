@@ -1,0 +1,38 @@
+import cv2
+import numpy as np
+
+image1 = cv2.imread("1.jpg")
+print(image1.shape)
+image2 = cv2.imread("2.jpg")
+print(image2.shape)
+
+il1, ic1, ir1 = image1.shape
+il2, ic2, ir2 = image2.shape
+
+nova_sub = np.zeros((il1,ic1, ir1), dtype = np.uint8)
+nova_ad = np.zeros((il1,ic1, ir1), dtype = np.uint8)
+
+for i in range(il1):
+    for j in range(ic1):
+        for d in range(ir1):
+            aux1 = (image1.item(i, j, d) - image2.item(i, j, d))
+            aux2 = ((image1.item(i, j, d) + image2.item(i, j, d))//2)
+            if aux1<0 :
+                aux1 = 0
+
+            nova_sub.itemset((i, j, d),aux1)
+            nova_ad.itemset((i,j,d),aux2)
+
+print(nova_sub.shape)
+cv2.imshow("Subtracao",nova_sub)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+print(nova_ad.shape)
+print(nova_sub.shape)
+cv2.imshow("Adicao",nova_ad)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+cv2.imwrite("Subtração.jpg",nova_sub)
+cv2.imwrite("Adição.jpg",nova_ad)
